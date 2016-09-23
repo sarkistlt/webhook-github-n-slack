@@ -1,5 +1,6 @@
 {
   "apps" : [{
+    "name"        : "NAME-webhook",
     "script"      : "./git-webhook.js",
     "watch"       : false,
     "interpreter" : "./node_modules/.bin/babel-node",

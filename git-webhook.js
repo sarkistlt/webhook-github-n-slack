@@ -37,6 +37,18 @@ let gitPull = (event) => {
                     }
                 });
             });
+        } else {
+            gitProcess.on('exit', code => {
+                slack.send({
+                    channel: '#totalgid',
+                    text: 'totalGID.com, auto git pull',
+                    unfurl_links: 1,
+                    username: 'GIDBot',
+                    fields: {
+                        'Author': 'server'
+                    }
+                });
+            });
         }
     });
 };

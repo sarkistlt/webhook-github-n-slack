@@ -5,16 +5,16 @@ let http = require('http'),
     spawn = require('child_process').spawn,
     slack = require('slack-notify')(MY_SLACK_WEBHOOK_URL);
 
-    http.createServer(function (req, res) {
-        handler(req, res, err => {
-            res.statusCode = 404;
-            res.end('no such location');
-        });
-    }).listen(5252);
+http.createServer(function (req, res) {
+    handler(req, res, err => {
+        res.statusCode = 404;
+        res.end('no such location');
+    });
+}).listen(5252);
 
 handler.on('error', err => console.error(`Error: ${err.message}`));
 
-handler.on('push', event => {
+let gitPull = (event) => {
     let gitReset = spawn('git', ['reset', '--hard'], {cwd: '/var/www/vhosts/web4fly.com/httpdocs/dev/totalGID'});
     console.log('pushed');
     gitReset.on('exit', code => {
@@ -23,18 +23,24 @@ handler.on('push', event => {
         gitProcess.stdout.pipe(process.stdout);
         gitProcess.stderr.pipe(process.stderr);
 
-        gitProcess.on('exit', code => {
-            slack.send({
-                channel: '#totalgid',
-                text: 'totalGID.com, pointing at ' + event.payload.ref + ' has been updated',
-                unfurl_links: 1,
-                username: 'GIDBot',
-                fields: {
-                    'Commit': event.payload.head_commit.id,
-                    'Message': event.payload.head_commit.message,
-                    'Author': event.payload.head_commit.author.name
-                }
+        if (event) {
+            gitProcess.on('exit', code => {
+                slack.send({
+                    channel: '#totalgid',
+                    text: 'totalGID.com, pointing at ' + event.payload.ref + ' has been updated',
+                    unfurl_links: 1,
+                    username: 'GIDBot',
+                    fields: {
+                        'Commit': event.payload.head_commit.id,
+                        'Message': event.payload.head_commit.message,
+                        'Author': event.payload.head_commit.author.name
+                    }
+                });
             });
-        });
+        }
     });
-});
+};
+
+setInterval(gitPull, 86400000);
+
+handler.on('push', event => gitPull(event));

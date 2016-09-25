@@ -1,4 +1,4 @@
-const MY_SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
+const MY_SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
 let http = require('http'),
     createHandler = require('github-webhook-handler'),
     handler = createHandler({path: '/webhook', secret: '57e462a8cc5037315bb1e7c8'}),
@@ -15,10 +15,9 @@ http.createServer(function (req, res) {
 handler.on('error', err => console.error(`Error: ${err.message}`));
 
 let gitPull = (event) => {
-    let gitReset = spawn('git', ['reset', '--hard'], {cwd: '/var/www/vhosts/web4fly.com/httpdocs/dev/totalGID'});
-    console.log('pushed');
+    let gitReset = spawn('git', ['reset', '--hard'], {cwd: '/var/www/vhosts/domain.com/httpdocs'});
     gitReset.on('exit', code => {
-        let gitProcess = spawn('git', ['pull'], {cwd: '/var/www/vhosts/web4fly.com/httpdocs/dev/totalGID'});
+        let gitProcess = spawn('git', ['pull'], {cwd: '/var/www/vhosts/domain.com/httpdocs'});
         console.log('on exit');
         gitProcess.stdout.pipe(process.stdout);
         gitProcess.stderr.pipe(process.stderr);
@@ -26,10 +25,10 @@ let gitPull = (event) => {
         if (event) {
             gitProcess.on('exit', code => {
                 slack.send({
-                    channel: '#totalgid',
-                    text: 'totalGID.com, pointing at ' + event.payload.ref + ' has been updated',
+                    channel: '#development',
+                    text: 'domain.com, pointing at ' + event.payload.ref + ' has been updated',
                     unfurl_links: 1,
-                    username: 'GIDBot',
+                    username: 'serverBot',
                     fields: {
                         'Commit': event.payload.head_commit.id,
                         'Message': event.payload.head_commit.message,
@@ -40,10 +39,10 @@ let gitPull = (event) => {
         } else {
             gitProcess.on('exit', code => {
                 slack.send({
-                    channel: '#totalgid',
-                    text: 'totalGID.com, auto git pull',
+                    channel: '#development',
+                    text: 'domain.com, auto git pull',
                     unfurl_links: 1,
-                    username: 'GIDBot',
+                    username: 'serverBot',
                     fields: {
                         'Author': 'server'
                     }
@@ -53,6 +52,5 @@ let gitPull = (event) => {
     });
 };
 
-setInterval(gitPull, 86400000);
-
 handler.on('push', event => gitPull(event));
+setInterval(gitPull, 86400000);

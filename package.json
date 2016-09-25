@@ -1,5 +1,5 @@
 {
-  "name": "totalgid",
+  "name": "webhook-github-n-slack",
   "version": "1.0.0",
   "scripts": {
     "node": "babel-node ./git-webhook.js",

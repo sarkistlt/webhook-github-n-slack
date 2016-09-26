@@ -24,7 +24,8 @@ let config = {
     slack: {
         url: 'https://hooks.slack.com/services/******/******/***********', //slack webhook URL
         channel: 'development',
-        projectName: 'name'
+        projectName: 'name',
+        exec: 'npm run restart' // pass any shell comand, it will run after all
     },
     port: 5254,
     schedule: [7, '18:00'] //first is Number, representing days, second is String, representing time

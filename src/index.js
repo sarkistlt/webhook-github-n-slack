@@ -75,4 +75,16 @@ export default function webhook(config) {
         }
         setTimeout(() => setInterval(gitPull, eachDays), tillFirstStart);
     }
+
+    if (config.hasOwnProperty('exec')) {
+        let exec = require('child_process').exec;
+        exec(config.exec,
+            function (error, stdout, stderr) {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                }
+            });
+    }
 }

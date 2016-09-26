@@ -15,27 +15,23 @@ export default function webhook(config) {
 
     let gitPull = (event) => {
         if (event) {
-            gitProcess.on('exit', code => {
-                slack.send({
-                    channel: `#${config.slack.channel}`,
-                    text: `${config.slack.projectName}, pointing at ${event.payload.ref} has been updated`,
-                    unfurl_links: 1,
-                    username: 'webhook',
-                    fields: {
-                        'Commit': event.payload.head_commit.id,
-                        'Message': event.payload.head_commit.message,
-                        'Author': event.payload.head_commit.author.name
-                    }
-                });
+            slack.send({
+                channel: `#${config.slack.channel}`,
+                text: `${config.slack.projectName}, pointing at ${event.payload.ref} has been updated`,
+                unfurl_links: 1,
+                username: 'webhook',
+                fields: {
+                    'Commit': event.payload.head_commit.id,
+                    'Message': event.payload.head_commit.message,
+                    'Author': event.payload.head_commit.author.name
+                }
             });
         } else {
-            gitProcess.on('exit', code => {
-                slack.send({
-                    channel: `#${config.slack.channel}`,
-                    text: `${config.slack.projectName}, scheduled "git pull"`,
-                    unfurl_links: 1,
-                    username: 'webhook'
-                });
+            slack.send({
+                channel: `#${config.slack.channel}`,
+                text: `${config.slack.projectName}, scheduled "git pull"`,
+                unfurl_links: 1,
+                username: 'webhook'
             });
         }
         let gitReset = spawn('git', ['reset', '--hard'], {cwd: config.github.projectRoot});

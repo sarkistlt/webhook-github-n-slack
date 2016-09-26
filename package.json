@@ -1,24 +1,42 @@
 {
   "name": "webhook-github-n-slack",
+  "description": "Easy and fast webhook set-up for GitHub and Slack",
   "version": "1.0.0",
   "scripts": {
-    "node": "babel-node ./git-webhook.js",
-    "start": "pm2 start process.json --env development",
-    "stop": "pm2 stop all --watch 0"
+    "build": "babel src --presets babel-preset-es2015 --out-dir lib",
+    "prepublish": "npm run build"
   },
+  "keywords": [
+    "github",
+    "slack",
+    "webhook",
+    "webhooks",
+    "slack-notify",
+    "git",
+    "github webhook"
+  ],
   "author": {
-    "name": "Sarkis Arutiunian"
+    "name": "Sarkis Arutiunian (sarkis.tlt@gmail.com)"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sarkistlt/totalgid.git"
+    "url": "https://github.com/sarkistlt/webhook-github-n-slack.git"
   },
+  "bugs": {
+    "url": "https://github.com/sarkistlt/webhook-github-n-slack/issues"
+  },
+  "homepage": "https://github.com/sarkistlt/webhook-github-n-slack#readme",
+  "license": "MIT",
   "dependencies": {
+    "github-webhook-handler": "^0.6.0",
+    "slack-notify": "^0.1.6"
+  },
+  "devDependencies": {
     "babel-cli": "6.9.0",
     "babel-core": "6.9.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
-    "github-webhook-handler": "^0.6.0",
-    "slack-notify": "^0.1.6"
-  }
+    "babel-preset-stage-1": "^6.13.0"
+  },
+  "readme": "README.md"
 }

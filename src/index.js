@@ -1,3 +1,5 @@
+import Schedule from 'schedule-js';
+
 export default function webhook(config) {
     let http = require('http'),
         createHandler = require('github-webhook-handler'),
@@ -70,31 +72,7 @@ export default function webhook(config) {
     };
 
     handler.on('push', event => gitPull(event));
-    if (
-        config.hasOwnProperty('schedule') &&
-        Number.isInteger(config.schedule[0]) &&
-        config.schedule[1].split(':').length === 2 &&
-        config.schedule[1].split(':')[0].length === 2 &&
-        config.schedule[1].split(':')[1].length === 2
-    ) {
-        let now = new Date(),
-            tillFirstStart = new Date(
-                    now.getFullYear(),
-                    now.getMonth(),
-                    now.getDate(),
-                    config.schedule[1].split(':')[0],
-                    config.schedule[1].split(':')[1]
-                ) - now,
-            eachDays = config.schedule[0] * 86400000;
-        if (tillFirstStart <= 0) {
-            tillFirstStart = new Date(
-                    now.getFullYear(),
-                    now.getMonth(),
-                    now.getDate() + 1,
-                    config.schedule[1].split(':')[0],
-                    config.schedule[1].split(':')[1]
-                ) - now;
-        }
-        setTimeout(() => setInterval(gitPull, eachDays), tillFirstStart);
+    if (config.hasOwnProperty('schedule')) {
+        Schedule.scheduleAt(config.schedule[0], config.schedule[1], gitPull);
     }
 }

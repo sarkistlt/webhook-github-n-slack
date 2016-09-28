@@ -23,7 +23,8 @@ let config = {
         exec: 'npm run restart' // pass any shell comand, it will run after function was execute by event or schedule 
     },
     port: 5254,
-    schedule: [7, '18:00'] //first is Number, representing days, second is String, representing time
+    schedule: ['1d', '18:00'] 
+    //first argument 'interval' has to be string as following: ```'12345(ms || s || m || h || d)'```, second, 'time' has to be string as following: ```'23:30'```
 };
 
 ...
@@ -32,6 +33,8 @@ let config = {
 
 webhook(config);
 ~~~
+
+For scheduling we use [schedule-js](https://github.com/sarkistlt/schedule-js).
 
 You can pass only Git, Slack or both configs together.
 Else if you pass ```schedule``` property it will schedule auto run of function each specified days and at specified time, besides webhook, for example to keep project up-to-date and avoid any local changes in project. 

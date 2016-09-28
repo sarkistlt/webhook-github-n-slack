@@ -2,7 +2,7 @@
   "name": "webhook-github-n-slack",
   "description": "Easy and fast webhook set-up for GitHub and Slack",
   "main": "lib/index.js",
-  "version": "1.2.6",
+  "version": "2.0.0",
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir lib",
     "prepublish": "npm run build"
@@ -30,6 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "github-webhook-handler": "^0.6.0",
+    "schedule-js": "^2.0.1",
     "slack-notify": "^0.1.6"
   },
   "devDependencies": {

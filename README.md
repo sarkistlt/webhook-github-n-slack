@@ -19,10 +19,10 @@ let config = {
     slack: {
         url: 'https://hooks.slack.com/services/******/******/***********', //slack webhook URL
         channel: 'development',
-        projectName: 'name',
-        exec: ['npm run restart', 'NODE_ENV=production webpack'] // pass any shell comand/s, it will run after function was execute by event or schedule 
+        projectName: 'name'
     },
-    port: 5254,
+    port: 5254,,
+    exec: ['npm run restart', 'NODE_ENV=production webpack'] // pass any shell comand/s, it will run after function was execute by event or schedule 
     schedule: ['1d', '18:00'] 
     //first argument 'interval' has to be string as following: ```'12345(ms || s || m || h || d)'```, second, 'time' has to be string as following: ```'23:30'```
 };

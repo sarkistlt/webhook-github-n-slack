@@ -67,16 +67,16 @@ export default function webhook(config) {
                                     }
                                 });
                         } else if (config.exec[0]) {
-                            config.exec.forEach((command => {
-                                exec(command,
-                                    function (error, stdout, stderr) {
-                                        console.log('stdout: ' + stdout);
-                                        console.log('stderr: ' + stderr);
-                                        if (error !== null) {
-                                            console.log('exec error: ' + error);
-                                        }
-                                    });
-                            }));
+                            let execCommand = '';
+                            config.exec.forEach(command => execCommand += command + ' && ');
+                            exec(execCommand,
+                                function (error, stdout, stderr) {
+                                    console.log('stdout: ' + stdout);
+                                    console.log('stderr: ' + stderr);
+                                    if (error !== null) {
+                                        console.log('exec error: ' + error);
+                                    }
+                                });
                         }
                     }
                 });

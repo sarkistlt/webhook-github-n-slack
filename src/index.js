@@ -68,7 +68,13 @@ export default function webhook(config) {
                                 });
                         } else if (config.exec[0]) {
                             let execCommand = '';
-                            config.exec.forEach(command => execCommand += command + ' && ');
+                            config.exec.forEach((command, idx) => {
+                                if (idx === config.exec.length - 1) {
+                                    execCommand += command;
+                                } else {
+                                    execCommand += command + ' && ';
+                                }
+                            });
                             exec(execCommand,
                                 function (error, stdout, stderr) {
                                     console.log('stdout: ' + stdout);

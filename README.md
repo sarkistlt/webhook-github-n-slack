@@ -22,7 +22,7 @@ let config = {
         projectName: 'name'
     },
     port: 5254,
-    exec: ['npm run restart', 'NODE_ENV=production webpack'] // pass any shell comand/s, it will run after function was execute by event or schedule 
+    exec: ['npm run restart', 'NODE_ENV=production webpack'], // pass any shell comand/s, it will run after function was execute by event or schedule 
     schedule: ['1d', '18:00'] 
     //first argument 'interval' has to be string as following: ```'12345(ms || s || m || h || d)'```, second, 'time' has to be string as following: ```'23:30'```
 };
